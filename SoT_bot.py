@@ -14,13 +14,8 @@ from SoT_webscraping import daily_bounties
 from SoT_date_parse import parse_SoT_date
 from dotenv import load_dotenv
 
-#message_channel_id=592816678564397166 #bestdaymondaa
-message_channel_id=747096899219226738 #SubParTestServer
-
 load_dotenv('.env')
 TOKEN = os.getenv('DISCORD_TOKEN')
-
-GUILD = 747096899219226735
 
 client=commands.Bot(command_prefix='!')
 
@@ -30,7 +25,7 @@ async def on_ready():
     print('Bot ID: {}'.format(client.user.id))
 
 @client.command(pass_context=True)
-async def dailybounty(self):
+async def dailybounty(ctx):
     # Load the latest bounty file
     d_bounty = np.load('SoT_output.npy', allow_pickle=True).item()
     
@@ -54,6 +49,6 @@ async def dailybounty(self):
         print('Date Error')
         embed = discord.Embed(title = 'Date error', description = 'Please contact dev', color = discord.Color.red())
     
-    await client.get_channel(message_channel_id).send(embed=embed)
+    await ctx.send(embed=embed)
 
 client.run(os.getenv('DISCORD_TOKEN'))

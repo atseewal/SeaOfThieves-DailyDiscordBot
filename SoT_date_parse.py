@@ -14,6 +14,6 @@ def parse_SoT_date(SoT_date):
     SoT_date = re.sub(r':', '', SoT_date, 1)
     SoT_date = datetime.strptime(SoT_date, '%B %d %I:%M%p')
     year_correct = datetime.now() + timedelta(days=1)
-    SoT_date.replace(year=year_correct.year)
+    SoT_date = SoT_date.replace(year=year_correct.year)
     
     return(SoT_date)
