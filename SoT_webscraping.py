@@ -48,9 +48,9 @@ def daily_bounties(username, password):
     
     #Create new bounty info
     d_bounty_end = re.findall(r'[A-Z][a-z]+\s\d{1,2}\w{2}:\s\d{1,2}:\d{2}\w{2}', d_bounty_time)[1]
-    #d_bounty_type = re.findall(r'gold|doubloons', d_bounty_description)
+    d_bounty_type = re.findall(r'gold|doubloons', d_bounty_description)[0]
     
-    d_bounty_info = {'Title': d_bounty_title, 'Description': d_bounty_description, 'Bounty_End': d_bounty_end}
+    d_bounty_info = {'Title': d_bounty_title, 'Description': d_bounty_description, 'Bounty_End': d_bounty_end, 'Bounty_Type': d_bounty_type}
     
     driver.close()
     

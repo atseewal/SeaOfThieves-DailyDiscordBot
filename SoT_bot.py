@@ -35,18 +35,28 @@ async def dailybounty(ctx):
     # Get time values
     d_bounty['Bounty_End_dt'] = parse_SoT_date(d_bounty['Bounty_End'])
     
+    if d_bounty['Bounty_Type'] == 'gold':
+        embed_color = discord.Color.gold()
+    else:
+        embed_color = discord.Color.blue()
+    
     # Compare time values
     if d_bounty['Bounty_End_dt'] >= datetime.now():
         print('Cached challenge still active, using cached challenge')
-        embed = discord.Embed(title = d_bounty['Title'], description = d_bounty['Description'], color = discord.Color.green())
+        embed = discord.Embed(title = d_bounty['Title'], description = d_bounty['Description'], color = embed_color)
         embed.add_field(name = 'Bounty End', value = d_bounty['Bounty_End'])
     elif d_bounty['Bounty_End_dt'] < datetime.now():
+        # Saved bounty expired, scrape a new one
         print('Cached challenge expired, scraping new challenge')
         print('starting scraping')
         d_bounty = daily_bounties(os.getenv('XBOX_USERNAME'), os.getenv('XBOX_PASSWORD'))
         print('scraping complete')
-        embed = discord.Embed(title = d_bounty['Title'], description = d_bounty['Description'], color = discord.Color.green())
+        
+        # Build Embed           
+        embed = discord.Embed(title = d_bounty['Title'], description = d_bounty['Description'], color = embed_color)
         embed.add_field(name = 'Bounty End', value = d_bounty['Bounty_End'])
+        
+        # Save bounty info
         np.save('SoT_output.npy', d_bounty)
     else:
         print('Date Error')
