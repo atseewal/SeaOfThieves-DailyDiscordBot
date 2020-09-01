@@ -2,7 +2,7 @@
 """
 Created on Sat Aug 22 17:16:51 2020
 
-@author: seewa
+@author: atseewal
 """
 
 #%% Imports
@@ -23,9 +23,12 @@ client=commands.Bot(command_prefix='!')
 async def on_ready():
     print('Connected to bot: {}'.format(client.user.name))
     print('Bot ID: {}'.format(client.user.id))
+    
+    await client.change_presence(activity = discord.Game(name='Sea of Thieves'))
 
 @client.command(pass_context=True)
 async def dailybounty(ctx):
+    
     # Load the latest bounty file
     d_bounty = np.load('SoT_output.npy', allow_pickle=True).item()
     

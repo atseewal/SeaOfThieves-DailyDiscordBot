@@ -2,7 +2,7 @@
 """
 Created on Tue Aug 25 10:53:50 2020
 
-@author: seewa
+@author: atseewal
 """
 
 def parse_SoT_date(SoT_date):

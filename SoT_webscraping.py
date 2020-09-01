@@ -2,7 +2,7 @@
 """
 Created on Sat Aug 22 13:28:01 2020
 
-@author: seewa
+@author: atseewal
 """
 
 #%% Create Function
