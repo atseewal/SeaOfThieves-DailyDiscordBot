@@ -11,27 +11,31 @@ def daily_bounties(username, password):
     from selenium import webdriver
     from selenium.webdriver.common.keys import Keys
     from selenium.webdriver.chrome.options import Options
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.common.by import By
     from bs4 import BeautifulSoup
-    import re
-    import time
+    from dotenv import load_env
+    import re, time, os
+    
+    # Load Environment
+    load_dotenv('.env')
     
     # Driver Setup
-    chromedriver = r'C:\Users\seewa\Documents\drivers\chromedriver.exe'
+    chromedriver = os.getenv('CHROME_DRIVER')
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     driver = webdriver.Chrome(executable_path=chromedriver, options = chrome_options)
     
     #Login
     driver.get('https://www.seaofthieves.com/login')
-    driver.find_element_by_name('loginfmt').send_keys(username)
-    driver.implicitly_wait(5)
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.element_to_be_clickable((By.NAME, 'loginfmt'))).send_keys(username)
     driver.find_element_by_xpath('//*[@id="idSIButton9"]').send_keys(Keys.ENTER)
-    driver.find_element_by_name('passwd').send_keys(password)
-    time.sleep(2)
+    wait.until(EC.element_to_be_clickable((By.NAME, 'passwd'))).send_keys(password)
     driver.find_element_by_xpath('//*[@id="idSIButton9"]').send_keys(Keys.ENTER)
     
-    driver.implicitly_wait(5)
-    driver.find_element_by_id('idSIButton9').send_keys(Keys.ENTER)
+    wait.until(EC.element_to_by_clickable((By.ID, 'idSIButton9').send_keys(Keys.ENTER)
     
     time.sleep(2)
     if re.search('seaofthieves', driver.current_url):
