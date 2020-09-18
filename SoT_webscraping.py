@@ -15,7 +15,7 @@ def daily_bounties(username, password):
     from selenium.webdriver.support import expected_conditions as EC
     from selenium.webdriver.common.by import By
     from bs4 import BeautifulSoup
-    from dotenv import load_env
+    from dotenv import load_dotenv
     import re, time, os
     
     # Load Environment
@@ -35,7 +35,12 @@ def daily_bounties(username, password):
     wait.until(EC.element_to_be_clickable((By.NAME, 'passwd'))).send_keys(password)
     driver.find_element_by_xpath('//*[@id="idSIButton9"]').send_keys(Keys.ENTER)
     
-    wait.until(EC.element_to_by_clickable((By.ID, 'idSIButton9').send_keys(Keys.ENTER)
+    # They removed a confirmation on Microsoft's login
+    # Adds a couple second wait, but keep it to be reliable I guess?
+    try:
+        wait.until(EC.element_to_be_clickable((By.ID, 'idSIButton9'))).send_keys(Keys.ENTER)
+    except:
+        pass
     
     time.sleep(2)
     if re.search('seaofthieves', driver.current_url):
@@ -52,7 +57,7 @@ def daily_bounties(username, password):
     
     #Create new bounty info
     d_bounty_end = re.findall(r'[A-Z][a-z]+\s\d{1,2}\w{2}:\s\d{1,2}:\d{2}\w{2}', d_bounty_time)[1]
-    d_bounty_type = re.findall(r'gold|doubloons', d_bounty_description)[0]
+    d_bounty_type = re.findall(r'gold|Doubloon', d_bounty_description)[0]
     
     d_bounty_info = {'Title': d_bounty_title, 'Description': d_bounty_description, 'Bounty_End': d_bounty_end, 'Bounty_Type': d_bounty_type}
     
