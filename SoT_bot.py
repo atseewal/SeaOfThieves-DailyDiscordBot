@@ -15,7 +15,6 @@ from SoT_date_parse import parse_SoT_date
 from dotenv import load_dotenv
 
 load_dotenv('.env')
-TOKEN = os.getenv('DISCORD_TOKEN')
 
 client=commands.Bot(command_prefix='!')
 
@@ -26,7 +25,7 @@ async def on_ready():
     
     await client.change_presence(activity = discord.Game(name='Sea of Thieves'))
 
-@client.command(pass_context=True)
+@client.command()
 async def dailybounty(ctx):
     
     # Load the latest bounty file
